@@ -1,0 +1,23 @@
+1. `import numpy as np`: Imports the NumPy library and assigns it the alias `np`. NumPy is commonly used for numerical computations in Python.
+
+2. `inp = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])`: Creates a NumPy array `inp` containing four input patterns for the logical OR operation. Each pattern consists of two binary values.
+
+3. `bias = -0.5`: Sets the bias value for the OR gate.
+
+4. `wt = np.array([1, 1])`: Initializes the weight vector `wt` with values `[1, 1]`. These weights represent the importance of each input feature in the logical OR operation.
+
+5. `def ORs(x, wt, bias):`: Defines a function named `ORs` that takes three parameters: `x` (the input pattern), `wt` (the weight vector), and `bias` (the bias value).
+
+6. `    fx = np.dot(wt, x) + bias`: Calculates the dot product of the weight vector `wt` and the input pattern `x`, then adds the bias value `bias`. This operation computes the weighted sum of the inputs.
+
+7. `    if fx >= 0:`: Checks if the computed weighted sum `fx` is greater than or equal to zero.
+
+8. `        return 1`: If the condition is true (weighted sum is positive or zero), the function returns 1, indicating that the logical OR condition is satisfied.
+
+9. `    else:`: If the condition in the if statement is false (weighted sum is negative), control flows to the else block.
+
+10. `        return 0`: Returns 0 if the weighted sum is negative, indicating that the logical OR condition is not satisfied.
+
+11. `for i in inp:`: Initiates a loop that iterates over each input pattern `i` in the `inp` array.
+
+12. `    print("OR(", i, ")=", ORs(i, wt, bias))`: Prints the result of applying the logical OR function (`ORs`) to each input pattern `i`. It calls the `ORs` function with the current input pattern `i`, weight vector `wt`, and bias value `bias`. The result is then printed with a descriptive message.

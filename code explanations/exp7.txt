@@ -1,0 +1,121 @@
+Certainly! Let's break down the code line by line:
+
+1. `import pandas as pd`: Imports the Pandas library and assigns it the alias `pd`.
+
+2. `import numpy as np`: Imports the NumPy library and assigns it the alias `np`.
+
+3. `import matplotlib.pyplot as plt`: Imports the Matplotlib library for plotting and assigns it the alias `plt`.
+
+4. `import seaborn as sns`: Imports the Seaborn library for data visualization and assigns it the alias `sns`.
+
+5. `import nltk`: Imports the Natural Language Toolkit (NLTK) library.
+
+6. `nltk.download('punkt')`: Downloads the 'punkt' tokenizer from NLTK.
+
+7. `from nltk.tokenize import word_tokenize`: Imports the `word_tokenize` function from NLTK for word tokenization.
+
+8. `from keras.preprocessing.text import Tokenizer`: Imports the `Tokenizer` class from Keras for text tokenization.
+
+9. `from keras.preprocessing.sequence import pad_sequences`: Imports the `pad_sequences` function from Keras for padding sequences.
+
+10. `from keras.models import Sequential`: Imports the `Sequential` model from Keras for creating a sequential neural network model.
+
+11. `from keras.layers import Embedding, LSTM, Dense, Dropout`: Imports various layers from Keras needed for building the neural network.
+
+12. `from sklearn.preprocessing import LabelEncoder`: Imports the `LabelEncoder` class from Scikit-learn for label encoding.
+
+13. `import csv`: Imports the CSV module for working with CSV files.
+
+14. `imdb = pd.read_csv('IMDB Dataset.csv', engine="python")`: Reads the IMDB dataset from a CSV file named 'IMDB Dataset.csv' using Pandas and stores it as a DataFrame named `imdb`.
+
+15. `imdb.head()`: Displays the first few rows of the `imdb` DataFrame.
+
+16. `imdb.sentiment.value_counts()`: Displays the count of each unique value in the 'sentiment' column of the `imdb` DataFrame.
+
+17. `text = imdb['review'][10]`: Retrieves the text of the review at index 10 from the 'review' column of the `imdb` DataFrame.
+
+18. `print(text)`: Prints the text of the review.
+
+19. `print("---------------------")`: Prints a separator line.
+
+20. `print(word_tokenize(text))`: Tokenizes the text of the review into words using NLTK's `word_tokenize` function and prints the result.
+
+21. `corpus = []`: Initializes an empty list named `corpus` to store tokenized reviews.
+
+22. `for text in imdb['review']:`: Iterates through each review in the 'review' column of the `imdb` DataFrame.
+
+23. `words = [word.lower() for word in word_tokenize(text)]`: Tokenizes each review into words, converts them to lowercase, and stores them in the `words` list.
+
+24. `corpus.append(words)`: Appends the tokenized words to the `corpus` list.
+
+25. `num_words = len(corpus)`: Computes the number of tokenized reviews in the `corpus`.
+
+26. `imdb.shape`: Prints the shape of the `imdb` DataFrame, which represents the number of rows and columns.
+
+27. `train_size = int(imdb.shape[0] * 0.8)`: Calculates the size of the training set as 80% of the total number of rows in the `imdb` DataFrame.
+
+28. `X_train = imdb.review[:train_size]`: Selects the reviews from the 'review' column of the `imdb` DataFrame for the training set.
+
+29. `y_train = imdb.sentiment[:train_size]`: Selects the corresponding sentiment labels for the training set.
+
+30. `X_test = imdb.review[train_size:]`: Selects the reviews from the 'review' column of the `imdb` DataFrame for the testing set.
+
+31. `y_test = imdb.sentiment[train_size:]`: Selects the corresponding sentiment labels for the testing set.
+
+32. `tokenizer = Tokenizer(num_words)`: Initializes a `Tokenizer` object with the specified number of words.
+
+33. `tokenizer.fit_on_texts(X_train)`: Fits the tokenizer on the training data to create a word index.
+
+34. `X_train = tokenizer.texts_to_sequences(X_train)`: Converts the text reviews in the training set to sequences of integers based on the word index.
+
+35. `X_train = pad_sequences(X_train, maxlen=128, truncating='post', padding='post')`: Pads the sequences of integers to a maximum length of 128, truncating or padding at the end as necessary.
+
+36. `X_test = tokenizer.texts_to_sequences(X_test)`: Converts the text reviews in the testing set to sequences of integers using the same tokenizer.
+
+37. `X_test = pad_sequences(X_test, maxlen=128, truncating='post', padding='post')`: Pads the sequences of integers in the testing set similarly to the training set.
+
+38. `le = LabelEncoder()`: Initializes a `LabelEncoder` object for encoding the sentiment labels.
+
+39. `y_train = le.fit_transform(y_train)`: Encodes the sentiment labels in the training set.
+
+40. `y_test = le.transform(y_test)`: Encodes the sentiment labels in the testing set using the same encoder.
+
+41. `model = Sequential()`: Initializes a sequential model using Keras.
+
+42. `model.add(Embedding(input_dim=num_words, output_dim=100, input_length=128, trainable=True))`: Adds an embedding layer to the model. The embedding layer is used to convert the integer-encoded words into dense vectors of fixed size. `input_dim` specifies the size of the vocabulary (number of words), `output_dim` specifies the dimensionality of the embeddings, and `input_length` specifies the length of input sequences.
+
+43. `model.add(LSTM(100, dropout=0.1, return_sequences=True))`: Adds a LSTM layer with 100 units to the model. The `dropout` parameter is set to 0.1 to prevent overfitting, and `return_sequences=True` indicates that the layer should return the full sequence of outputs.
+
+44. `model.add(LSTM(100, dropout=0.1))`: Adds another LSTM layer with 100 units to the model. This layer does not return sequences, which means it only returns the output of the last timestep.
+
+45. `model.add(Dense(1, activation='sigmoid'))`: Adds a dense output layer with a single unit and sigmoid activation function. This layer produces a binary classification output (positive or negative sentiment).
+
+46. `model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])`: Compiles the model with binary cross-entropy loss function, Adam optimizer, and accuracy metric.
+
+47. `model.summary()`: Prints a summary of the model architecture.
+
+48. `history = model.fit(X_train, y_train, epochs=5, batch_size=64, validation_data=(X_test, y_test))`: Trains the model on the training data (`X_train` and `y_train`) for 5 epochs with a batch size of 64. The validation data (`X_test` and `y_test`) is used for validation during training.
+
+49. `plt.figure(figsize=(16,5))`: Creates a new figure for plotting the training and validation loss.
+
+50. `epochs = range(1, len(history.history['accuracy']) + 1)`: Creates a range of epochs for plotting.
+
+51. `plt.plot(epochs, history.history['loss'], 'b', label='Training loss')`: Plots the training loss over epochs in blue.
+
+52. `plt.plot(epochs, history.history['val_loss'], 'b', label='Validation loss')`: Plots the validation loss over epochs in blue.
+
+53. `plt.legend()`: Adds a legend to the plot.
+
+54. `plt.show()`: Displays the plot.
+
+55. `validation_sentence = ['i can watch the movie forever just because of beauty of cinematography']`: Defines a validation sentence for testing.
+
+56. `validation_sentence_tokened = tokenizer.texts_to_sequences(validation_sentence)`: Tokenizes the validation sentence using the same tokenizer.
+
+57. `val_sent_pad = pad_sequences(validation_sentence_tokened, maxlen=128, truncating='post', padding='post')`: Pads the tokenized validation sentence to a maximum length of 128.
+
+58. `print(validation_sentence[0])`: Prints the original validation sentence.
+
+59. `print(model.predict(val_sent_pad)[0])`: Makes predictions on the padded validation sentence using the trained model and prints the result.
+
+This code performs sentiment analysis on IMDB movie reviews using LSTM neural networks. It tokenizes the text data, prepares it for training, builds and trains the LSTM model, evaluates the model's performance, and makes predictions on a sample validation sentence.

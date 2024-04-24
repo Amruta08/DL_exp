@@ -1,0 +1,87 @@
+1. `from keras.datasets import mnist`: Imports the MNIST dataset from the Keras library. MNIST is a dataset of handwritten digits.
+
+2. `import numpy as np`: Imports the NumPy library and assigns it the alias `np`. NumPy is used for numerical computations in Python.
+
+3. `(train_images, _), (test_images, _) = mnist.load_data()`: Loads the MNIST dataset, splitting it into training and testing sets. `train_images` and `test_images` contain the images of handwritten digits, while the underscore `_` is used to ignore the corresponding labels.
+
+4. `print(train_images.shape)`: Prints the shape of the training images array.
+
+5. `print(test_images.shape)`: Prints the shape of the testing images array.
+
+6. `import matplotlib.pyplot as plt`: Imports the Matplotlib library for plotting.
+
+7. `plt.imshow(test_images[0].reshape(28, 28))`: Displays the first test image in grayscale using Matplotlib's `imshow` function. It reshapes the image from a 1D array to a 2D array of size 28x28 pixels.
+
+8. `plt.gray()`: Sets the color map of the plot to grayscale.
+
+9. `train_images = train_images.astype('float32') / 255.`: Normalizes the pixel values of the training images to the range [0, 1] by dividing by 255.0.
+
+10. `test_images = test_images.astype('float32') / 255.`: Normalizes the pixel values of the testing images to the range [0, 1] by dividing by 255.0.
+
+11. `train_images = train_images.reshape((len(train_images), np.prod(train_images.shape[1:])))`: Reshapes the training images from a 3D array (num_samples, 28, 28) to a 2D array (num_samples, 784), where each row represents a flattened image.
+
+12. `test_images = test_images.reshape((len(test_images), np.prod(test_images.shape[1:])))`: Reshapes the testing images similarly to the training images.
+
+13. `print(train_images.shape)`: Prints the shape of the reshaped training images array.
+
+14. `print(test_images.shape)`: Prints the shape of the reshaped testing images array.
+
+15. `from keras.layers import Input, Dense`: Imports the `Input` and `Dense` layers from Keras. These are used to define the architecture of the autoencoder.
+
+16. `from keras.models import Model`: Imports the `Model` class from Keras. It is used to create the autoencoder and encoder models.
+
+17. `encoding_dim = 32`: Defines the dimension of the encoding space.
+
+18. `input_layer = Input(shape=(784,))`: Defines the input layer of the autoencoder with shape (784,), corresponding to the flattened images.
+
+19. `encoder_layer1 = Dense(encoding_dim, activation='relu')(input_layer)`: Defines the first encoding layer of the autoencoder, which maps the input to the encoding space using a ReLU activation function.
+
+20. `decoder_layer1 = Dense(784, activation='sigmoid')(encoder_layer1)`: Defines the decoding layer of the autoencoder, which maps the encoded representation back to the original input space using a sigmoid activation function.
+
+21. `autoencoder = Model(input_layer, decoder_layer1)`: Creates the autoencoder model by specifying the input and output layers.
+
+22. `autoencoder.summary()`: Prints a summary of the autoencoder model architecture.
+
+23. `encoder = Model(input_layer, encoder_layer1)`: Creates the encoder model, which maps the input to the encoding space.
+
+24. `encoded_input = Input(shape=(encoding_dim,))`: Defines the input layer for the decoder model with shape (encoding_dim,), corresponding to the encoded representations.
+
+25. `decoder_layer = autoencoder.layers[-1]`: Retrieves the decoder layer from the autoencoder model.
+
+26. `decoder = Model(encoded_input, decoder_layer(encoded_input))`: Creates the decoder model, which maps the encoded representations back to the original input space.
+
+27. `autoencoder.compile(optimizer='adam', loss='binary_crossentropy')`: Compiles the autoencoder model with the Adam optimizer and binary cross-entropy loss function.
+
+28. `autoencoder.fit(train_images, train_images, epochs=60, batch_size=256, shuffle=True, validation_data=(test_images, test_images))`: Trains the autoencoder model using the training images as both input and target output. It specifies the number of epochs, batch size, and validation data.
+
+29. `encoded_imgs = encoder.predict(test_images)`: Uses the encoder model (`encoder`) to encode the testing images (`test_images`) into their encoded representations. The encoded representations are stored in the `encoded_imgs` variable.
+
+30. `print(encoded_imgs.shape)`: Prints the shape of the encoded representations to verify the dimensions.
+
+31. `decoded_imgs = decoder.predict(encoded_imgs)`: Uses the decoder model (`decoder`) to decode the encoded representations (`encoded_imgs`) back into reconstructed images. The reconstructed images are stored in the `decoded_imgs` variable.
+
+32. `print(decoded_imgs.shape)`: Prints the shape of the reconstructed images to verify the dimensions.
+
+33. `import matplotlib.pyplot as plt`: Imports the Matplotlib library for plotting.
+
+34. `n = 10`: Specifies how many digits will be displayed.
+
+35. `plt.figure(figsize=(20, 4))`: Creates a figure with a specific size for plotting the original and reconstructed images.
+
+36. `for i in range(n):`: Starts a loop to iterate over the specified number of digits.
+
+37. `ax = plt.subplot(2, n, i + 1)`: Creates a subplot for displaying the original image. `2, n, i + 1` specifies the layout of the subplot grid, where `2` indicates two rows, `n` indicates `n` columns, and `i + 1` specifies the position of the subplot.
+
+38. `plt.imshow(test_images[i].reshape(28, 28))`: Displays the original image at index `i` from the `test_images` array. It reshapes the flattened image back to its original 28x28 dimensions.
+
+39. `plt.gray()`: Sets the color map of the plot to grayscale.
+
+40. `ax.get_xaxis().set_visible(False)`: Hides the x-axis labels for better visualization.
+
+41. `ax.get_yaxis().set_visible(False)`: Hides the y-axis labels for better visualization.
+
+42. Similar steps are repeated to display the reconstructed images in the second row of subplots.
+
+43. `plt.show()`: Displays the plot containing both the original and reconstructed images.
+
+This code block visualizes a sample of original images and their reconstructed counterparts from an autoencoder. It demonstrates how well the autoencoder is able to reconstruct the input images.

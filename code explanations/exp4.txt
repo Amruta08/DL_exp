@@ -1,0 +1,45 @@
+1. `import numpy as np`: Imports the NumPy library and assigns it the alias `np`. NumPy is used for numerical computations in Python.
+
+2. `import matplotlib.pyplot as plt`: Imports the `pyplot` module from the Matplotlib library and assigns it the alias `plt`. Matplotlib is a plotting library in Python.
+
+3. `import pandas as pd`: Imports the Pandas library and assigns it the alias `pd`. Pandas is used for data manipulation and analysis.
+
+4. `def nlinear(x, deriv=False):`: Defines a function named `nlinear` that implements the sigmoid activation function. It takes an input `x` and an optional boolean parameter `deriv` which defaults to False. If `deriv` is True, it returns the derivative of the sigmoid function; otherwise, it returns the sigmoid function itself.
+
+5. `if(deriv==True):`: Checks if the `deriv` parameter is True.
+
+6. `return x*(1-x)`: Returns the derivative of the sigmoid function if `deriv` is True.
+
+7. `return 1/(1+np.exp(-x))`: Returns the sigmoid function if `deriv` is False.
+
+8. `X=np.array([[1,1,0],[0,1,1],[0,0,1],[1,1,0]])`: Creates a NumPy array `X` containing input data. Each row represents a sample and each column represents a feature.
+
+9. `y=np.array([[1,0,0,1]]).T`: Creates a NumPy array `y` containing output data. The `.T` transposes the array to convert it from a row vector to a column vector.
+
+10. `synapse0=2*np.random.random((3,1))-1`: Initializes the weight matrix `synapse0` with random values sampled from a uniform distribution between -1 and 1. This matrix represents the weights of connections between the input layer and the hidden layer.
+
+11. `for i in range(1000):`: Starts a loop that iterates 1000 times.
+
+12. `layer0=X`: Assigns the input data `X` to the variable `layer0`.
+
+13. `layer1=nlinear(np.dot(layer0,synapse0))`: Performs forward propagation by computing the dot product of `layer0` and `synapse0`, then applying the sigmoid activation function `nlinear` to the result, and assigns it to `layer1`. This computes the output of the neural network.
+
+14. `layer1_error=y-layer1`: Computes the error between the predicted output `layer1` and the actual output `y`.
+
+15. `layer1_delta=layer1_error*nlinear(layer1,True)`: Computes the delta (gradient) of the error with respect to the output layer using the derivative of the sigmoid function, multiplied by the error itself.
+
+16. `synapse0+=np.dot(layer0.T,layer1_delta)`: Updates the weights `synapse0` by performing gradient descent. It computes the dot product of the transpose of `layer0` and `layer1_delta`, and adds it to `synapse0`.
+
+17. `print("op:")`: Prints the string "op:".
+
+18. `print(layer1)`: Prints the output of the neural network (`layer1`).
+
+19. `print("ao:")`: Prints the string "ao:".
+
+20. `print(y)`: Prints the actual output (`y`).
+
+21. `df=[y,layer1]`: Creates a list `df` containing the actual output `y` and the predicted output `layer1`.
+
+22. `df`: Prints the list `df`.
+
+23. `plt.plot(y,layer1)`: Plots `layer1` (predicted output) against `y` (actual output) using Matplotlib's `plot` function. This is a visualization of the predicted versus actual outputs.

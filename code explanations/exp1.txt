@@ -1,0 +1,35 @@
+1. `def fire(theta, sum):`: This line defines a function named `fire` that takes two parameters: `theta` and `sum`.
+
+2. `    if sum >= theta:`: This is an if statement that checks if the value of `sum` is greater than or equal to the threshold `theta`.
+
+3. `        return 1`: If the condition is true, the function returns 1, indicating that the neuron should "fire" or activate.
+
+4. `    else:`: This is the else clause of the if statement.
+
+5. `        return 0`: If the condition in the if statement is false, the function returns 0, indicating that the neuron should not fire.
+
+6. `def fireNot(theta, sum):`: This line defines another function named `fireNot`, similar to the previous one but with a different condition.
+
+7. `    if sum == theta:`: This if statement checks if the value of `sum` is equal to the threshold `theta`.
+
+8. `        return 1`: If the condition is true, the function returns 1.
+
+9. `    else:`: This is the else clause of the if statement.
+
+10. `        return 0`: If the condition in the if statement is false, the function returns 0.
+
+11. `inp = [[1,1,1], [0,0,0], [1,1,0], [0,0,1]]`: This line initializes a list `inp` containing nested lists, representing input patterns for logical operations (AND, OR).
+
+12. `for i in inp:`: This is a for loop that iterates over each list `i` in the `inp` list.
+
+13. `    sum = 0`: This line initializes a variable `sum` to zero.
+
+14. `    for j in i:`: This is another for loop that iterates over each element `j` in the current input list `i`.
+
+15. `        sum+=j`: This line increments the `sum` variable by the value of the current element `j`.
+
+16. `    print("AND (",i,")=", fire(len(i), sum))`: This line prints the result of the logical AND operation for the current input pattern `i`. It calls the `fire` function with the length of the input pattern `i` and the sum of its elements `sum` as arguments.
+
+17. The code similarly prints the results for logical OR and NOT operations using the defined functions `fire` and `fireNot`, respectively, and the provided input patterns.
+
+The output displays the results of the logical operations for each input pattern as specified in the comments.

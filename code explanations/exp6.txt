@@ -1,0 +1,63 @@
+1. `import tensorflow as tf`: Imports the TensorFlow library.
+
+2. `(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()`: Loads the MNIST dataset using TensorFlow's Keras API. It splits the dataset into training and testing sets, with `x_train` and `x_test` containing the images and `y_train` and `y_test` containing the corresponding labels.
+
+3. `import matplotlib.pyplot as plt`: Imports the Matplotlib library for plotting.
+
+4. `print(y_train[1])`: Prints the label of the second image in the training set.
+
+5. `plt.imshow(x_train[1], cmap='Greys')`: Displays the second image in the training set using Matplotlib's `imshow` function. The colormap `Greys` is used to display the image in grayscale.
+
+6. `x_train.shape`: Prints the shape of the training images array.
+
+7. `x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)`: Reshapes the training images array to have a single channel (grayscale) using NumPy's `reshape` function.
+
+8. `x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)`: Reshapes the testing images array similarly to the training set.
+
+9. `input_shape = (28, 28, 1)`: Defines the input shape for the convolutional neural network (CNN) model.
+
+10. `x_train = x_train.astype('float32')`: Converts the data type of the training images to float32.
+
+11. `x_test = x_test.astype('float32')`: Converts the data type of the testing images to float32.
+
+12. `x_train /= 255`: Normalizes the pixel values of the training images to the range [0, 1].
+
+13. `x_test /= 255`: Normalizes the pixel values of the testing images to the range [0, 1].
+
+14. `from tensorflow.keras.models import Sequential`: Imports the Sequential model from TensorFlow's Keras API.
+
+15. `from tensorflow.keras.layers import Dense, Conv2D, Dropout, Flatten, MaxPooling2D`: Imports the required layers for building the CNN model.
+
+16. `model = Sequential()`: Initializes a Sequential model.
+
+17. `model.add(Conv2D(32, kernel_size=(3, 3), input_shape=input_shape))`: Adds a 2D convolutional layer with 32 filters, each with a kernel size of (3, 3), to the model. The input shape is specified as `input_shape`.
+
+18. `model.add(MaxPooling2D(pool_size=(2, 2)))`: Adds a max pooling layer with a pool size of (2, 2) to the model.
+
+19. `model.add(Conv2D(32, kernel_size=(3, 3), input_shape=input_shape))`: Adds another 2D convolutional layer with 32 filters and a kernel size of (3, 3) to the model.
+
+20. `model.add(MaxPooling2D(pool_size=(2, 2)))`: Adds another max pooling layer with a pool size of (2, 2) to the model.
+
+21. `model.add(Flatten())`: Adds a Flatten layer to flatten the output of the previous layer.
+
+22. `model.add(Dense(256, activation=tf.nn.relu))`: Adds a fully connected layer with 256 neurons and ReLU activation function.
+
+23. `model.add(Dropout(0.2))`: Adds a dropout layer with a dropout rate of 0.2 to prevent overfitting.
+
+24. `model.add(Dense(10, activation=tf.nn.softmax))`: Adds a fully connected layer with 10 neurons and softmax activation function, which outputs probabilities for each class.
+
+25. `model.summary()`: Prints a summary of the model architecture.
+
+26. `model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])`: Compiles the model with the Adam optimizer, sparse categorical cross-entropy loss function, and accuracy metric.
+
+27. `model.fit(x=x_train, y=y_train, epochs=10)`: Trains the model on the training data for 10 epochs.
+
+28. `model.evaluate(x_test, y_test)`: Evaluates the model on the testing data and prints the loss and accuracy.
+
+29. `image_index = 6630`: Specifies the index of the image to be tested.
+
+30. `plt.imshow(x_test[image_index].reshape(28, 28), cmap='Greys')`: Displays the specified image from the testing set using Matplotlib's `imshow` function.
+
+31. `pred = model.predict(x_test[image_index].reshape(1, 28, 28, 1))`: Predicts the label of the specified image using the trained model.
+
+32. `print(pred.argmax())`: Prints the predicted label of the image.
